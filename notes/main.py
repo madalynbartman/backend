@@ -121,3 +121,45 @@ def read_item(item_id: int, q: str = None):
 # @app.delete("/items/{item_id}", status_code=status.HTTP_204_NO_CONTENT)
 # def delete_item(item_id: int):
 #     return {"message": "Item deleted successfully"}
+
+# Can use Swagger UI, FastAPI’s built-in interactive documentation, to demo your API endpoints
+
+# GET Method:
+# Find the GET /items/{item_id} endpoint
+# 2. Try it out
+# 3. Enter Parameters: Enter the required path parameter (item_id) and optional query parameter (q)
+# Example: item_id = 1, q = "example query"
+# 4. Execute
+
+# POST Method:
+# 1Find the POST /items/ endpoint
+# 2. Try it out
+# 3. Enter the JSON payload for the request body
+# {
+#     "name": "Sample Item",
+#     "description": "This is a sample item",
+#     "price": 9.99,
+#     "tax": 0.5
+# }
+# 4. Execute
+
+# PUT Method:
+# Find the PUT /items/{item_id} endpoint
+# 2. Try it out
+# 3. Enter Parameters and Request Body: Enter the item_id and the JSON payload for the request body
+# Example: item_id = 1
+# JSON Payload:
+# {
+#     "name": "Updated Item",
+#     "description": "This is an updated item",
+#     "price": 19.99,
+#     "tax": 1.0
+# }
+# 4.Execute
+
+# DELETE Method:
+# 1. Find the DELETE /items/{item_id} endpoint
+# 2. Try it out
+# 3. Enter the item_id
+# Example: item_id = 1
+# 4. Execute
