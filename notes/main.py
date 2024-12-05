@@ -139,7 +139,7 @@ def delete_item(item_id: int):
 # 4. Execute
 
 # Scaffolding
-# 1. How do we build an API with FastAPI?
+# 1. How do we build a backend with FastAPI?
 
 # 2. What is an API? 
 # 3. What data does an API exchange?
@@ -168,3 +168,19 @@ def delete_item(item_id: int):
 
 # 2. How do we demo our endpoints for the 4 core http methods?
 # 3. What is Swagger UI?
+
+# Payloads
+# Post
+# {
+#     "name": "Sample Item",
+#     "description": "This is a sample item",
+#     "price": 9.99,
+#     "tax": 0.5
+# }
+# Put
+# {
+#     "name": "Updated Item",
+#     "description": "This is an updated item",
+#     "price": 19.99,
+#     "tax": 1.0
+# }
