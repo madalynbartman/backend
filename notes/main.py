@@ -1,4 +1,5 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, status
+from fastapi.responses import JSONResponse
 
 # What is an API? 
 # A web service that provides an interface to applications to manipulate and retrive info
@@ -29,6 +30,9 @@ app = FastAPI()
 # PUT: this is to actually update something that's already existing in the database. Modify information essentially 
 # DELETE: getting rid of information
 
+# FastAPI can validate query parameters, path parameters, and headers for all types of requests (GET, POST, PUT, DELETE) using pydantic.
+# It automatically validates the data types of the request parameters and body content against the defined models.
+
 # You're going to say @app dot, then the method, then the endpoint
 # /: root or your home endpoint
 # Make sure the decorator for your endpoint is right above the function that will be triggered when you go to it
@@ -54,3 +58,66 @@ def read_item(item_id: int, q: str = None):
 
 # Status codes
 # Every time you call an http endpoint it will return to you some status code that indicates what happened. The default is 200 that stands for ok
+
+# # Can optionally add some more status codes in
+# @app.get("/items/{item_id}")
+# def read_item(item_id: int, q: str = None):
+#     # Return a 400 Bad Request status code if item_id is less than 1
+#     if item_id < 1:
+#         return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content={"message": "Invalid item_id"})
+#     # Default status code 200 OK for valid requests
+#     return {"item_id": item_id, "q": q}
+
+# # Define a POST endpoint to create an item with a 201 Created status code
+# @app.post("/items/", status_code=status.HTTP_201_CREATED)
+# def create_item(item: dict):
+#     return {"message": "Item created successfully", "item": item}
+
+# # Define a PUT endpoint to update an item with a 200 OK status code
+# @app.put("/items/{item_id}", status_code=status.HTTP_200_OK)
+# def update_item(item_id: int, item: dict):
+#     return {"message": "Item updated successfully", "item_id": item_id, "item": item}
+
+# # Define a DELETE endpoint to delete an item with a 204 No Content status code
+# @app.delete("/items/{item_id}", status_code=status.HTTP_204_NO_CONTENT)
+# def delete_item(item_id: int):
+#     return {"message": "Item deleted successfully"}
+
+# # can also add in a request body like this
+
+# What is a Request Body?
+# A request body is data sent by the client to your API. This is typically used in POST and PUT requests where the client needs to send data to the server to create or update a resource. In FastAPI, you can easily handle request bodies using Pydantic models.
+
+# from fastapi import FastAPI, status
+# from pydantic import BaseModel
+# from fastapi.responses import JSONResponse
+
+# app = FastAPI()
+
+# class Item(BaseModel):
+#     name: str
+#     description: str = None
+#     price: float
+#     tax: float = None
+
+# @app.get("/")
+# def read_root():
+#     return {"message": "Welcome to the FastAPI application"}
+
+# @app.get("/items/{item_id}")
+# def read_item(item_id: int, q: str = None):
+#     if item_id < 1:
+#         return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content={"message": "Invalid item_id"})
+#     return {"item_id": item_id, "q": q}
+
+# @app.post("/items/", status_code=status.HTTP_201_CREATED)
+# def create_item(item: Item):
+#     return {"message": "Item created successfully", "item": item}
+
+# @app.put("/items/{item_id}", status_code=status.HTTP_200_OK)
+# def update_item(item_id: int, item: Item):
+#     return {"message": "Item updated successfully", "item_id": item_id, "item": item}
+
+# @app.delete("/items/{item_id}", status_code=status.HTTP_204_NO_CONTENT)
+# def delete_item(item_id: int):
+#     return {"message": "Item deleted successfully"}
