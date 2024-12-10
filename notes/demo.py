@@ -25,9 +25,9 @@ from pydantic import BaseModel
 # Initialize our API by creating an app object by calling the FastAPI constructor
 app = FastAPI()
 
-@app.get("/")
-def read_root():
-    return {"message": "Welcome to the FastAPI app!"}
+# @app.get("/")
+# def read_root():
+#     return {"message": "Welcome to the FastAPI app!"}
 
 class Item(BaseModel):
     name: str
@@ -45,7 +45,6 @@ def get_item(item_id: int, name: Optional[str] = None):
         raise HTTPException(status_code=404, detail="Item name not found.")
     
     return inventory[item_id]
-
 
 @app.post("/create-item/{item_id}")
 def create_item(item_id: int, item: Item):
