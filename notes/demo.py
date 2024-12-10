@@ -2,27 +2,42 @@ from fastapi import FastAPI, HTTPException
 from typing import Optional
 from pydantic import BaseModel
 
-# Square Brackets []: Used to access elements in lists, tuples, and dictionaries by their index or key.
-# Curly Braces {}: Used to define dictionaries and sets.
-# We are are using square brackets [] to access values within the inventory dictionary by their keys.
+# API: interface that allows us to programatically interface withan application
+# Web API: an API that uses Hyptertext Transfer Protocol (HTTP) to transport data
 
-# If we don't specify custom status codes in our FastAPI endpoints, we will still see the default status codes in the API. FastAPI will automatically use appropriate status codes based on the type of request and the outcome of the request. 
-# However, without specifying custom status codes, we won't be able to customize the message or the status code itself.
+# HTTP: A communication protocol that allows us to exchange different media types over a network
+# GET: Returns info about the requested resource
+# POST: Creates a new resource
+# PUT: Performs a full update by replacing a resource
+# DELETE: Removes a resource
 
-# Run with uvicorn working:app --reload
+# Microservices communicate with each other using APIs 
+# The API documentation tells us how to interact with the microservice 
+
+# API documentation: A description of the API 
+# Following a standard interface description language such as Open API for REST APIs
+
+# Documentation Driven Development:
+# 1. Design and document the API
+# 2. Build the API client and the API server following the documentation
+# 3. Test both the API client and the API server against the documentation
 
 app = FastAPI()
+
+# @app.get("/")
+# def read_root():
+#     return {"message: " "Welcome to the FastAPI app!"}
 
 class Item(BaseModel):
     name: str
     price: float
-    brand: Optional[str] = None
+    description: Optional[str] = None
 
-# Using an in memory dictionary as a data store
+# In-memory data store
 inventory = {}
 
 @app.get("/get-item/{item_id}")
-def get_item(item_id: int, name: str = None):
+def get_item(item_id: int, name: Optional[str] = None):
     if item_id not in inventory:
         raise HTTPException(status_code=404, detail="Item ID not found.")
     if name and inventory[item_id].name != name:
@@ -30,28 +45,25 @@ def get_item(item_id: int, name: str = None):
     
     return inventory[item_id]
 
-# Request body
+
 @app.post("/create-item/{item_id}")
 def create_item(item_id: int, item: Item):
     if item_id in inventory:
         raise HTTPException(status_code=400, detail="Item ID already exists")
-    # Adds the item from the item inventory, our data store
     inventory[item_id] = item
 
     return inventory[item_id]
 
 @app.put("/update-item/{item_id}")
 def update_item(item_id: int, item: Item):
-    # This ensures that any update operation is only performed on items that actually exist in the inventory.
     if item_id not in inventory:
         raise HTTPException(status_code=404, detail="Item ID does not exist.")
-    # Checks if name is provided, it updates the name field of the inventory item with the new name. And so on..
     if item.name != None:
         inventory[item_id].name = item.name
     if item.price != None:
         inventory[item_id].price = item.price
-    if item.brand != None:
-        inventory[item_id].brand = item.brand
+    if item.description != None:
+        inventory[item_id].description = item.description
 
     return inventory[item_id]
 
@@ -63,3 +75,16 @@ def delete_item(item_id: int):
     del inventory[item_id]
     
     return {"Success": "Item deleted!"}
+
+# Starlette: asynchronous server gateway interface (ASGI) web framework
+# It runs services as a collection of asynchronous tasks to gain performance in apps
+# uvicorn is an asynchronous web server commonly used to run starlette apps
+# It handles HTTP requests and passes them to Starlette
+# FastAPI is built on top of Starlette 
+# It enhances Starlettes routes with data validation (pydantic) & API documentation (Swagger)
+
+# Run with uvicorn file:app --reload
+# Hot reloading restarts your server whenever you make changes to your file
+
+# Swagger UI is a data visualization tool for APIs
+# Using Swagger UI, we can easily test if our implementation is correct
