@@ -5,7 +5,7 @@ from pydantic import BaseModel
 # API: interface that allows us to programatically interface withan application
 # Web API: an API that uses Hyptertext Transfer Protocol (HTTP) to transport data
 
-# HTTP: A communication protocol that allows us to exchange different media types over a network
+# HTTP: A communication protocol used to exchange different media types over a network
 # GET: Returns info about the requested resource
 # POST: Creates a new resource
 # PUT: Performs a full update by replacing a resource
@@ -17,16 +17,17 @@ from pydantic import BaseModel
 # API documentation: A description of the API 
 # Following a standard interface description language such as Open API for REST APIs
 
-# Documentation Driven Development:
-# 1. Design and document the API
-# 2. Build the API client and the API server following the documentation
-# 3. Test both the API client and the API server against the documentation
+# Why FastAPI?
+# 1. Auto validation (normally you have to code the data validation yourself)
+# 2. Automatically generates documentation that also allows you to test your api
+# 3. Really good auto completion because you're defining types
 
+# Initialize our API by creating an app object by calling the FastAPI constructor
 app = FastAPI()
 
-# @app.get("/")
-# def read_root():
-#     return {"message: " "Welcome to the FastAPI app!"}
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to the FastAPI app!"}
 
 class Item(BaseModel):
     name: str
@@ -58,6 +59,7 @@ def create_item(item_id: int, item: Item):
 def update_item(item_id: int, item: Item):
     if item_id not in inventory:
         raise HTTPException(status_code=404, detail="Item ID does not exist.")
+    # If name wasn't lfet blank, update name
     if item.name != None:
         inventory[item_id].name = item.name
     if item.price != None:
@@ -76,13 +78,7 @@ def delete_item(item_id: int):
     
     return {"Success": "Item deleted!"}
 
-# Starlette: asynchronous server gateway interface (ASGI) web framework
-# It runs services as a collection of asynchronous tasks to gain performance in apps
-# uvicorn is an asynchronous web server commonly used to run starlette apps
-# It handles HTTP requests and passes them to Starlette
-# FastAPI is built on top of Starlette 
-# It enhances Starlettes routes with data validation (pydantic) & API documentation (Swagger)
-
+# Uvicorn: Recomended web server to run FastAPI
 # Run with uvicorn file:app --reload
 # Hot reloading restarts your server whenever you make changes to your file
 
