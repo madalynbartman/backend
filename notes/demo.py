@@ -22,12 +22,15 @@ from pydantic import BaseModel
 # 2. Automatically generates documentation that also allows you to test your api
 # 3. Really good auto completion because you're defining types
 
+# Comment out the code now and uncomment as you go through each topic
+
 # Initialize our API by creating an app object by calling the FastAPI constructor
 app = FastAPI()
 
+# Write this endpoint live while talking about endpoints
 # @app.get("/")
 # def read_root():
-#     return {"message": "Welcome to the FastAPI app!"}
+#  return {"message": "Welcome to the app!"}
 
 class Item(BaseModel):
     name: str
@@ -58,7 +61,7 @@ def create_item(item_id: int, item: Item):
 def update_item(item_id: int, item: Item):
     if item_id not in inventory:
         raise HTTPException(status_code=404, detail="Item ID does not exist.")
-    # If name wasn't lfet blank, update name
+    # If name wasn't left blank, update name and so on...
     if item.name != None:
         inventory[item_id].name = item.name
     if item.price != None:
@@ -76,6 +79,11 @@ def delete_item(item_id: int):
     del inventory[item_id]
     
     return {"Success": "Item deleted!"}
+
+# Starlette: framework that handles communication tools between web servers and web apps
+# FastAPI is built on top of Starlette
+# It enhances Starlettes routes with data validation (pydantic) & API documentation (Swagger)
+# It runs FastAPI, takes HTTP requests from the client, and sends them to FastAPI
 
 # Uvicorn: Recomended web server to run FastAPI
 # Run with uvicorn file:app --reload
