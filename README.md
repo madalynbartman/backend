@@ -1,2 +1,2 @@
 # backend
-Backend development projects
+Inventory app made with FastApi
